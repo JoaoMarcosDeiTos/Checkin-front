@@ -146,7 +146,7 @@ export default function CreateChild() {
             onClick={() =>
               editParams
                 ? navigate(`/edit-my-data?cpf=${responsavel_cpf}`)
-                : navigate("/")
+                : navigate(-1)
             }
           >
             Voltar

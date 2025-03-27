@@ -85,7 +85,7 @@ export default function CreateOtherResponsible() {
             onClick={() =>
               editParam
                 ? navigate(`/edit-my-data?cpf=${cpfResponsavel}`)
-                : navigate("/")
+                : navigate(-1)
             }
           >
             Voltar

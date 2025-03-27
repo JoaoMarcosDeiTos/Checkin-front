@@ -126,7 +126,11 @@ export default function EditMyData() {
                     color="red"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setDeleteItem({ type: "responsavel", id: resp.id });
+                      setDeleteItem({
+                        type: "responsavel",
+                        id: resp.id,
+                        cpfResponsavel: resp.cpf ?? undefined,
+                      });
                     }}
                     style={{
                       position: "absolute",
@@ -232,9 +236,14 @@ export default function EditMyData() {
                     <Text size="3">
                       Data de nascimento:
                       <br />
-                      {new Date(
-                        crianca.data_nascimento + "T00:00:00"
-                      ).toLocaleDateString("pt-BR", { timeZone: "UTC" })}
+                      {(() => {
+                        const data = new Date(crianca.data_nascimento);
+                        return isNaN(data.getTime())
+                          ? "Data inválida"
+                          : data.toLocaleDateString("pt-BR", {
+                              timeZone: "UTC",
+                            });
+                      })()}
                     </Text>
                   </ContainerResp>
                 </CardResp>
@@ -370,7 +379,10 @@ export default function EditMyData() {
           onConfirm={() => {
             if (deleteItem) {
               if (deleteItem.type === "responsavel") {
-                handleDeleteResponsible(deleteItem.id);
+                handleDeleteResponsible(
+                  deleteItem.id,
+                  deleteItem.cpfResponsavel ?? ""
+                );
               } else {
                 handleDeleteChild(deleteItem.id);
               }

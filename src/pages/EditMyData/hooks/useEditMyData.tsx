@@ -36,6 +36,7 @@ export const useEditMyData = () => {
   const [deleteItem, setDeleteItem] = useState<{
     type: "responsavel" | "crianca";
     id: number;
+    cpfResponsavel?: string | undefined;
   } | null>(null);
 
   // Formata a data no padrão YYYY-MM-DD a partir de dia, mês e ano (como strings)
@@ -64,7 +65,10 @@ export const useEditMyData = () => {
     if (selectedChild) {
       setChildNome(selectedChild.nome);
       // Para evitar problemas de fuso horário, fazemos o split da string
-      const parts = selectedChild.data_nascimento.split("-");
+      const dateStr = new Date(selectedChild.data_nascimento)
+        .toISOString()
+        .split("T")[0];
+      const parts = dateStr.split("-");
       if (parts.length === 3) {
         // Converter para número e depois para string remove os zeros à esquerda
         setChildAno(String(Number(parts[0])));
@@ -186,11 +190,20 @@ export const useEditMyData = () => {
     }
   };
 
-  const handleDeleteResponsible = async (id: number) => {
+  const handleDeleteResponsible = async (
+    id: number,
+    cpfResponsavel: string
+  ) => {
     try {
       await api.delete(`/responsible/${id}`);
       toast.success("Responsável deletado com sucesso.");
+
       setResponsaveis((prev) => prev.filter((resp) => resp.id !== id));
+
+      // Se o CPF deletado é o mesmo da URL, redireciona
+      if (cpfResponsavel === cpfParam) {
+        navigate("/"); // redireciona para a home
+      }
     } catch (error: unknown) {
       const apiError = error as { response?: { data?: { error?: string } } };
       const message =
