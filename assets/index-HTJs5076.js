@@ -455,4 +455,4 @@ body {
   box-sizing: border-box;
 }
 
-`;function zM(){return S.jsxs(mR,{children:[S.jsx(MM,{}),S.jsx(h5,{}),S.jsx(jM,{})]})}tT.createRoot(document.getElementById("root")).render(S.jsx(g.StrictMode,{children:S.jsx(gi,{appearance:"light",accentColor:"blue",grayColor:"mauve",radius:"large",children:S.jsx(zM,{})})}));
+`;function zM(){return S.jsxs(mR,{basename:"/Checkin-front",children:[S.jsx(MM,{}),S.jsx(h5,{}),S.jsx(jM,{})]})}tT.createRoot(document.getElementById("root")).render(S.jsx(g.StrictMode,{children:S.jsx(gi,{appearance:"light",accentColor:"blue",grayColor:"mauve",radius:"large",children:S.jsx(zM,{})})}));
