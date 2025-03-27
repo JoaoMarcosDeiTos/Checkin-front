@@ -6,7 +6,7 @@ import { GlobalStyle } from "./styles/GlobalStyle";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/Checkin-front">
       <AppRoutes />
       <ToastContainer />
       <GlobalStyle />
