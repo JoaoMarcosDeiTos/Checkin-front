@@ -1,4 +1,3 @@
-// src/pages/EditMyData/index.tsx
 import CardComponent from "../../components/CardComponent";
 import BackgroundGlobal from "../../components/BackgroundGlobal";
 import {
@@ -51,7 +50,6 @@ export default function EditMyData() {
     handleNavigateToNewResponsible,
     handleNavigateToChildRegistration,
     navigate,
-    // Estados e funções para edição da criança
     selectedChild,
     isChildDialogOpen,
     childNome,
@@ -369,7 +367,6 @@ export default function EditMyData() {
           </DialogComponent>
         )}
 
-        {/* Componente de confirmação de exclusão */}
         <ConfirmDeleteDialog
           open={!!deleteItem}
           onOpenChange={(open) => {

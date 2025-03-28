@@ -10,17 +10,14 @@ export default function AfterAddResponsible() {
   const cpfResponsavel = searchParams.get("cpf");
 
   const handleNavigateToNewResponsible = () => {
-    // Verifica se existe um CPF na URL e o repassa
     if (cpfResponsavel) {
       navigate(`/create-other-responsible?cpf=${cpfResponsavel}`);
     } else {
-      // Caso não exista (não deveria acontecer), navega sem parâmetros
       navigate("/create-other-responsible");
     }
   };
 
   const handleNavigateToChildRegistration = () => {
-    // Também passa o CPF para o cadastro da criança, se estiver disponível
     if (cpfResponsavel) {
       navigate(`/create-child?cpf=${cpfResponsavel}`);
     } else {

@@ -30,11 +30,10 @@ export const useOtherResponsibleCreate = () => {
   const [podeCheckin, setPodeCheckin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
-  const cpfResponsavel = searchParams.get("cpf"); // CPF de quem está criando (pode ser sub ou principal)
+  const cpfResponsavel = searchParams.get("cpf");
   const editParam = searchParams.get("edit");
   const navigate = useNavigate();
 
-  // Funções para lidar com máscaras
   const handleCpfChange = (value: string) => {
     setCpf(formatCpf(value));
   };
@@ -43,7 +42,6 @@ export const useOtherResponsibleCreate = () => {
     setTelefone(formatTelefone(value));
   };
 
-  // Função para enviar o formulário
   const handleSubmit = async () => {
     if (!nome || !cpf || !telefone || !parentesco) {
       toast.error("Preencha todos os campos.");
@@ -55,31 +53,20 @@ export const useOtherResponsibleCreate = () => {
       return;
     }
 
-    // Remove máscaras do CPF e telefone do novo responsável
     const cpfLimpo = removeNonNumeric(cpf);
     const telefoneLimpo = removeNonNumeric(telefone);
 
-    // Se você quiser manter a rota atual do backend, basta manter `responsavel_principal_cpf`
-    // Se você estiver implementando a lógica de "criador_cpf" que encontra o principal real,
-    // renomeie para criador_cpf, conforme exemplo abaixo:
     const cpfResponsavelLimpo = removeNonNumeric(cpfResponsavel);
 
     setIsLoading(true);
 
     try {
-      // Ajuste o nome do campo aqui conforme seu endpoint no backend:
-      // Se o backend espera "responsavel_principal_cpf", use esse nome.
-      // Se o backend vai fazer a lógica de subir na hierarquia, use "criador_cpf".
       const response = await api.post("/responsible/sub", {
         nome,
         cpf: cpfLimpo,
         telefone: telefoneLimpo,
         parentesco,
         pode_fazer_checkin: podeCheckin ? 1 : 0,
-        // Caso seu backend atual espere "responsavel_principal_cpf", use isso:
-        // responsavel_principal_cpf: cpfResponsavelLimpo,
-
-        // Caso você vá implementar a lógica de subir a hierarquia, use "criador_cpf":
         criador_cpf: cpfResponsavelLimpo,
       });
 
@@ -100,7 +87,6 @@ export const useOtherResponsibleCreate = () => {
         if (editParam) {
           navigate(`/edit-my-data?cpf=${cpfResponsavelLimpo}`);
         } else {
-          // Ajuste a rota conforme sua necessidade
           navigate(`/other-responsible?cpf=${cpfResponsavelLimpo}`);
         }
       }, 2000);

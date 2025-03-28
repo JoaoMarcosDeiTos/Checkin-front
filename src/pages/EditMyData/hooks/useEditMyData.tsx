@@ -16,8 +16,8 @@ export const useEditMyData = () => {
   const [selectedChild, setSelectedChild] = useState<childrenProps | null>(
     null
   );
-  const [isDialogOpen, setIsDialogOpen] = useState(false); // para responsáveis
-  const [isChildDialogOpen, setIsChildDialogOpen] = useState(false); // para crianças
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isChildDialogOpen, setIsChildDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -32,14 +32,12 @@ export const useEditMyData = () => {
   const [childMes, setChildMes] = useState("");
   const [childAno, setChildAno] = useState("");
 
-  // Estado para armazenar o item a ser excluído (para alert dialog)
   const [deleteItem, setDeleteItem] = useState<{
     type: "responsavel" | "crianca";
     id: number;
     cpfResponsavel?: string | undefined;
   } | null>(null);
 
-  // Formata a data no padrão YYYY-MM-DD a partir de dia, mês e ano (como strings)
   const formatarDataParaAPI = (
     dia: string,
     mes: string,
@@ -50,7 +48,6 @@ export const useEditMyData = () => {
     return `${ano}-${mesFormatado}-${diaFormatado}`;
   };
 
-  // Quando um responsável é selecionado, popula os estados para edição
   useEffect(() => {
     if (selectedResponsavel) {
       setNome(selectedResponsavel.nome);
@@ -60,17 +57,14 @@ export const useEditMyData = () => {
     }
   }, [selectedResponsavel]);
 
-  // Ao selecionar uma criança para edição, converte a data de nascimento (assumindo o formato "YYYY-MM-DD")
   useEffect(() => {
     if (selectedChild) {
       setChildNome(selectedChild.nome);
-      // Para evitar problemas de fuso horário, fazemos o split da string
       const dateStr = new Date(selectedChild.data_nascimento)
         .toISOString()
         .split("T")[0];
       const parts = dateStr.split("-");
       if (parts.length === 3) {
-        // Converter para número e depois para string remove os zeros à esquerda
         setChildAno(String(Number(parts[0])));
         setChildMes(String(Number(parts[1])));
         setChildDia(String(Number(parts[2])));
@@ -133,7 +127,6 @@ export const useEditMyData = () => {
   const saveResponsavel = async () => {
     if (selectedResponsavel) {
       try {
-        // Remove os caracteres não numéricos do CPF antes de enviar
         const cpfSemMascara = cpf.replace(/\D/g, "");
         const data = {
           ...selectedResponsavel,
@@ -200,9 +193,8 @@ export const useEditMyData = () => {
 
       setResponsaveis((prev) => prev.filter((resp) => resp.id !== id));
 
-      // Se o CPF deletado é o mesmo da URL, redireciona
       if (cpfResponsavel === cpfParam) {
-        navigate("/"); // redireciona para a home
+        navigate("/");
       }
     } catch (error: unknown) {
       const apiError = error as { response?: { data?: { error?: string } } };
